@@ -14,6 +14,8 @@
             --primary-hover: #1d4ed8;
             --success: #16a34a;
             --warning: #ea580c;
+            --sky-blue: #0284c7;
+            --slate-800: #1e293b;
         }
 
         body {
@@ -91,7 +93,7 @@
             gap: 15px;
             margin-bottom: 30px;
         }
-        .tabs { display: flex; gap: 10px; }
+        .tabs { display: flex; flex-wrap: wrap; gap: 10px; }
         .tab-btn {
             padding: 10px 20px;
             background: #e2e8f0;
@@ -146,12 +148,62 @@
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
             border: 1px solid #e2e8f0;
             overflow-x: auto;
+            margin-bottom: 30px;
         }
         .table-section h2 { margin-top: 0; font-size: 20px; color: #1e293b; padding-bottom: 10px; border-bottom: 2px solid #f1f5f9; }
         table { width: 100%; border-collapse: collapse; text-align: right; margin-top: 10px; min-width: 600px; }
         th, td { padding: 12px 15px; border-bottom: 1px solid #f1f5f9; }
         th { background-color: #f8fafc; color: var(--text-muted); font-weight: 600; }
         tr:hover { background-color: #f8fafc; }
+
+        /* نموذج التحكم عن بعد */
+        .control-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .control-panel { grid-template-columns: 1fr; }
+        }
+        .form-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            border-top: 4px solid var(--primary);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--slate-800);
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-family: inherit;
+            font-size: 15px;
+        }
+        .btn-send {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+        .btn-send:hover { background: var(--primary-hover); }
 
         .loading { text-align: center; color: var(--primary); font-weight: bold; display: none; margin: 20px 0; font-size: 16px; }
     </style>
@@ -175,31 +227,31 @@
             <button class="tab-btn active" onclick="switchView('Invoices', this)">فواتير المبيعات 📑</button>
             <button class="tab-btn" onclick="switchView('AnimalCases', this)">الحالات والعيادة 🩺</button>
             <button class="tab-btn" onclick="switchView('Items', this)">جرد المخزن والأصناف 📦</button>
+            <button class="tab-btn" onclick="switchView('RemoteCommands', this)">غرفة التحكم عن بعد والرسائل 🎛️</button>
         </div>
-        <button class="btn-refresh" onclick="fetchCurrentActiveSheet()">تحديث البيانات الحية 🔄</button>
+        <button class="btn-refresh" id="refreshBtn" onclick="fetchCurrentActiveSheet()">تحديث البيانات الحية 🔄</button>
     </div>
 
     <div id="loadingText" class="loading">جاري مزامنة وسحب البيانات الحية من السيرفر السحابي...</div>
 
-    <div class="card-grid" id="statsGrid">
-        </div>
+    <div class="card-grid" id="statsGrid"></div>
 
-    <div class="table-section">
-        <h2 id="tableTitle">فواتير المبيعات الحية</h2>
-        <table id="dataTable">
-            <thead id="tableHead">
-                </thead>
-            <tbody id="tableBody">
-                </tbody>
-        </table>
+    <div id="dataDisplaySection">
+        <div class="table-section">
+            <h2 id="tableTitle">فواتير المبيعات الحية</h2>
+            <table id="dataTable">
+                <thead id="tableHead"></thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
     </div>
 </div>
 
 <script>
-    // ✅ الرابط السحابي المباشر الخاص بجوجل سكريبت لتطبيقك
-const cloudServerUrl = "https://script.google.com/macros/s/AKfycbwQXAqLendkRNQz-Kka_0FLrTjxHgYacKzRn0xh0tIKoOhzj7W2ontmyUtk55-RWAY/exec";    let currentSheet = "Invoices";
+    // 🔗 الرابط السحابي المباشر الخاص بجوجل سكريبت لتطبيقك
+    const cloudServerUrl = "https://script.google.com/macros/s/AKfycbwQXAqLendkRNQz-Kka_0FLrTjxHgYacKzRn0xh0tIKoOhzj7W2ontmyUtk55-RWAY/exec";
+    let currentSheet = "Invoices";
 
-    // دالة فحص كلمة المرور لتأمين لوحة التحكم الخاصة بك (يمكنك تغيير 123456 لأي رقم سري تحبه)
     function checkPassword() {
         const pass = document.getElementById('passInput').value;
         if(pass === "123456") { 
@@ -211,27 +263,118 @@ const cloudServerUrl = "https://script.google.com/macros/s/AKfycbwQXAqLendkRNQz-
         }
     }
 
-    // التبديل بين جداول (الفواتير - العيادة - الأصناف والمخازن)
     function switchView(sheetName, btn) {
         currentSheet = sheetName;
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.remove('active');
         btn.classList.add('active');
         
-        const titles = { 'Invoices': 'فواتير المبيعات الحية', 'AnimalCases': 'سجلات الحالات والعيادة البيطرية', 'Items': 'جرد الأصناف والمستودعات الحالية' };
-        document.getElementById('tableTitle').innerText = titles[sheetName];
+        const displaySection = document.getElementById('dataDisplaySection');
+        const refreshBtn = document.getElementById('refreshBtn');
         
-        fetchCurrentActiveSheet();
+        if (sheetName === "RemoteCommands") {
+            // إخفاء زر التحديث العام عند فتح لوحة التحكم لعدم تداخل المهام
+            refreshBtn.style.display = "none";
+            document.getElementById('statsGrid').innerHTML = "";
+            
+            // بناء فورام التحكم والرسائل للمدير
+            displaySection.innerHTML = `
+                <div class="control-panel">
+                    <div class="form-card">
+                        <h2>🎛️ إرسال أمر تحكم للصيدلية</h2>
+                        <p style="color:var(--text-muted); font-size:13px; margin-top:-10px; margin-bottom:20px;">قم بتغيير الأسعار أو إضافة العروض ليطبقها الموظف فوراً</p>
+                        
+                        <div class="form-group">
+                            <label>نوع العملية التحديثية</label>
+                            <select id="cmdType" onchange="adjustFormLabels()">
+                                <option value="UpdatePrice">تحديث سعر بيع صنف عن بعد</option>
+                                <option value="AddOffer">إضافة عرض أو خصم نسبي (%)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label id="lblTargetKey">باركود أو كود الصنف المستهدف</label>
+                            <input type="text" id="targetKey" placeholder="مثال: 1000001">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label id="lblNewValue">السعر الجديد (جنيه)</label>
+                            <input type="number" step="0.01" id="newValue" placeholder="أدخل القيمة هنا">
+                        </div>
+                        
+                        <button class="btn-send" onclick="sendRemoteControlCmd()">إرسال وتطبيق الأمر فوراً 🚀</button>
+                    </div>
+
+                    <div class="form-card" style="border-top-color: var(--warning);">
+                        <h2>✉️ توجيه رسالة مباشرة للموظف</h2>
+                        <p style="color:var(--text-muted); font-size:13px; margin-top:-10px; margin-bottom:20px;">ستظهر له رسالة منبثقة مميزة بداخل فورم التحديث الشيك</p>
+                        
+                        <div class="form-group">
+                            <label>نص التوجيه أو الرسالة الإدارية</label>
+                            <textarea id="managerMsg" rows="5" placeholder="اكتب هنا تعليماتك للموظف، مثلاً: يرجى التأكد من جرد رف تحصينات السونار اليوم..."></textarea>
+                        </div>
+                        
+                        <button class="btn-send" style="background: var(--warning);" onclick="sendManagerNotification()">بث الرسالة على شاشة الصيدلية 📣</button>
+                    </div>
+                </div>
+                
+                <div class="table-section" style="margin-top: 30px;">
+                    <h2>سجل أوامر التحكم السابقة وحالتها في الصيدلية</h2>
+                    <table id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>نوع الأمر</th>
+                                <th>المستهدف / الكود</th>
+                                <th>القيمة المرسلة</th>
+                                <th>حالة التنفيذ بالصيدلية</th>
+                                <th>وقت الإرسال</th>
+                            </tr>
+                        </thead>
+                        <tbody id="remoteCmdsLogsTable">
+                            <tr><td colspan="5" style="text-align:center;">جاري جلب سجل العمليات...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            fetchRemoteCommandsLogs();
+        } else {
+            // إعادة الواجهة للوضع الافتراضي للجداول والإحصائيات
+            refreshBtn.style.display = "block";
+            displaySection.innerHTML = `
+                <div class="table-section">
+                    <h2 id="tableTitle"></h2>
+                    <table id="dataTable">
+                        <thead id="tableHead"></thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            `;
+            const titles = { 'Invoices': 'فواتير المبيعات الحية', 'AnimalCases': 'سجلات الحالات والعيادة البيطرية', 'Items': 'جرد الأصناف والمستودعات الحالية' };
+            document.getElementById('tableTitle').innerText = titles[sheetName];
+            fetchCurrentActiveSheet();
+        }
     }
 
-    // سحب البيانات من السيرفر السحابي
+    // لتغيير مسميات الحقول ديناميكياً حسب اختيار المدير
+    function adjustFormLabels() {
+        const type = document.getElementById('cmdType').value;
+        const lblTarget = document.getElementById('lblTargetKey');
+        const lblVal = document.getElementById('lblNewValue');
+        const inputVal = document.getElementById('newValue');
+        
+        if(type === "UpdatePrice") {
+            lblTarget.innerText = "باركود أو كود الصنف المستهدف";
+            lblVal.innerText = "السعر الجديد بالتجزئة (جنيه)";
+            inputVal.placeholder = "مثال: 150.50";
+        } else if(type === "AddOffer") {
+            lblTarget.innerText = "باركود أو كود الصنف المشمول بالعرض";
+            lblVal.innerText = "نسبة الخصم المراد تفعيلها (%)";
+            inputVal.placeholder = "مثال: 10";
+        }
+    }
+
     function fetchCurrentActiveSheet() {
         document.getElementById('loadingText').style.display = 'block';
-        
-        fetch(cloudServerUrl, {
-            method: 'POST',
-            body: JSON.stringify({ action: 'getData', sheetName: currentSheet })
-        })
+        fetch(cloudServerUrl + "?sheet=" + currentSheet)
         .then(response => response.json())
         .then(res => {
             document.getElementById('loadingText').style.display = 'none';
@@ -239,51 +382,152 @@ const cloudServerUrl = "https://script.google.com/macros/s/AKfycbwQXAqLendkRNQz-
                 processAndRender(res.data);
             }
         }).catch(err => {
-            document.getElementById('loadingText').innerText = "خطأ: تأكد من اتصال الكمبيوتر بالإنترنت والمزامنة!";
+            document.getElementById('loadingText').innerText = "خطأ: فشل سحب البيانات الحية!";
             console.error(err);
         });
     }
 
-    // معالجة ورسم البيانات والكروت بناءً على التبويب المختار
+    // جلب وعرض سجل الأوامر لجدول التحكم عن بعد
+    function fetchRemoteCommandsLogs() {
+        fetch(cloudServerUrl + "?sheet=RemoteCommands")
+        .then(response => response.json())
+        .then(res => {
+            const tbody = document.getElementById('remoteCmdsLogsTable');
+            if(!tbody) return;
+            tbody.innerHTML = "";
+            
+            if(res.result === 'success' && res.data && res.data.length > 1) {
+                const data = res.data;
+                // عرض الأوامر من الأحدث إلى الأقدم
+                for(let i = data.length - 1; i >= 1; i--) {
+                    let typeTxt = data[i][1] === "UpdatePrice" ? "تعديل سعر" : (data[i][1] === "AddOffer" ? "خصم/عرض" : "رسالة إدارية");
+                    let statusTxt = data[i][4] == 1 ? "<span style='color:var(--success); font-weight:bold;'>✔️ تم القبول والتحديث</span>" : "<span style='color:var(--warning); font-weight:bold;'>⏳ في انتظار موافقة الموظف</span>";
+                    
+                    let dateStr = "";
+                    if(data[i][5]) {
+                        let d = new Date(data[i][5]);
+                        dateStr = d.toLocaleTimeString('ar-EG') + " - " + d.toLocaleDateString('ar-EG');
+                    }
+
+                    let tr = `<tr>
+                        <td>${typeTxt}</td>
+                        <td>${data[i][2]}</td>
+                        <td>${data[i][3]}</td>
+                        <td>${statusTxt}</td>
+                        <td>${dateStr}</td>
+                    </tr>`;
+                    tbody.innerHTML += tr;
+                }
+            } else {
+                tbody.innerHTML = "<tr><td colspan='5' style='text-align:center;'>لا توجد عمليات تحكم مرسلة مسبقاً.</td></tr>";
+            }
+        });
+    }
+
+    // إرسال أمر تحكم (تعديل سعر أو عرض)
+    function sendRemoteControlCmd() {
+        const type = document.getElementById('cmdType').value;
+        const target = document.getElementById('targetKey').value.trim();
+        const val = document.getElementById('newValue').value.trim();
+        
+        if(!target || !val) {
+            alert("يرجى ملء كود الصنف والقيمة الجديدة أولاً!");
+            return;
+        }
+
+        document.getElementById('loadingText').style.display = 'block';
+        
+        fetch(cloudServerUrl, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: "sendRemoteCommand",
+                sheetName: "RemoteCommands",
+                data: { CommandType: type, TargetKey: target, NewValue: val }
+            })
+        })
+        .then(res => res.json())
+        .then(result => {
+            document.getElementById('loadingText').style.display = 'none';
+            if(result.result === "success") {
+                alert("🚀 تم إرسال الأمر بنجاح إلى السحابة، وسيظهر للموظف في الصيدلية فوراً!");
+                document.getElementById('targetKey').value = "";
+                document.getElementById('newValue').value = "";
+                fetchRemoteCommandsLogs();
+            } else {
+                alert("حدث خطأ أثناء إرسال الأمر.");
+            }
+        });
+    }
+
+    // إرسال رسالة توجيهية للموظف
+    function sendManagerNotification() {
+        const msg = document.getElementById('managerMsg').value.trim();
+        if(!msg) {
+            alert("يرجى كتابة نص الرسالة أولاً!");
+            return;
+        }
+
+        document.getElementById('loadingText').style.display = 'block';
+        
+        fetch(cloudServerUrl, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: "sendRemoteCommand",
+                sheetName: "RemoteCommands",
+                data: { CommandType: "Notification", TargetKey: "Msg", NewValue: msg }
+            })
+        })
+        .then(res => res.json())
+        .then(result => {
+            document.getElementById('loadingText').style.display = 'none';
+            if(result.result === "success") {
+                alert("📣 تم بث الرسالة بنجاح، ستظهر للموظف في الصيدلية في نافذة منبثقة شيك!");
+                document.getElementById('managerMsg').value = "";
+                fetchRemoteCommandsLogs();
+            } else {
+                alert("حدث خطأ أثناء إرسال الرسالة.");
+            }
+        });
+    }
+
     function processAndRender(data) {
         const thead = document.getElementById('tableHead');
         const tbody = document.getElementById('tableBody');
         const statsGrid = document.getElementById('statsGrid');
         
+        if(!thead || !tbody) return;
+
         thead.innerHTML = "";
         tbody.innerHTML = "";
         statsGrid.innerHTML = "";
 
         if (!data || data.length === 0) {
-            tbody.innerHTML = "<tr><td colspan='10' style='text-align:center;'>لا توجد بيانات مرفوعة في هذا الجدول حتى الآن.</td></tr>";
+            tbody.innerHTML = "<tr><td colspan='11' style='text-align:center;'>لا توجد بيانات مرفوعة في هذا الجدول حتى الآن.</td></tr>";
             return;
         }
 
-        // 1. بناء رؤوس الجدول ديناميكياً بناء على العناوين القادمة من جوجل شيت
         let headers = data[0];
         let headRow = "<tr>";
         headers.forEach(h => headRow += `<th>${h}</th>`);
         headRow += "</tr>";
         thead.innerHTML = headRow;
 
-        // 2. بناء الأسطر والبيانات
         for(let i = 1; i < data.length; i++) {
             let row = data[i];
             let tr = "<tr>";
             row.forEach(cell => {
-                tr += `<td>${cell !== undefined && cell !== null ? cell : '-'}</td>`;
+                tr += `<td>${cell !== undefined && cell !== null && cell !== "" ? cell : '-'}</td>`;
             });
             tr += "</tr>";
             tbody.innerHTML += tr;
         }
 
-        // 3. حساب وبناء بطاقات الإحصائيات السريعة الذكية (Dashboard Cards)
         if (currentSheet === "Invoices") {
             let total = 0, cash = 0, bank = 0;
             for(let i = 1; i < data.length; i++) {
-                total += parseFloat(data[i][2]) || 0; // TotalAmount
-                cash += parseFloat(data[i][3]) || 0;  // PaidCash
-                bank += parseFloat(data[i][4]) || 0;  // PaidBank
+                total += parseFloat(data[i][2]) || 0;
+                cash += parseFloat(data[i][3]) || 0; 
+                bank += parseFloat(data[i][4]) || 0; 
             }
             statsGrid.innerHTML = `
                 <div class="card" style="border-bottom: 4px solid var(--primary);"><h3>إجمالي الإيرادات (جنيه)</h3><p style="color:var(--primary);">${total.toFixed(2)}</p></div>
@@ -295,7 +539,7 @@ const cloudServerUrl = "https://script.google.com/macros/s/AKfycbwQXAqLendkRNQz-
         else if (currentSheet === "AnimalCases") {
             let totalCost = 0;
             for(let i = 1; i < data.length; i++) {
-                totalCost += parseFloat(data[i][6]) || 0; // ServiceCost
+                totalCost += parseFloat(data[i][7]) || 0; // تم تعديل الدليل ليطابق الترتيب (ServiceCost في العمود الثامن)
             }
             statsGrid.innerHTML = `
                 <div class="card" style="border-bottom: 4px solid var(--warning);"><h3>إجمالي كشوفات العيادة</h3><p style="color:var(--warning);">${totalCost.toFixed(2)} ج.م</p></div>
