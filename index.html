@@ -121,11 +121,6 @@
             color: #155724;
         }
 
-        .status-badge.disconnected {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-
         /* =============== الكروت والأقسام =============== */
         .card {
             background: white;
@@ -142,13 +137,6 @@
             color: var(--primary-color);
             border-bottom: 1px solid var(--light-gray);
             padding-bottom: 10px;
-        }
-
-        .card h4 {
-            font-size: 14px;
-            margin-top: 15px;
-            margin-bottom: 10px;
-            color: #555;
         }
 
         /* =============== النماذج =============== */
@@ -190,11 +178,6 @@
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
         }
 
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
         /* =============== الأزرار =============== */
         .button-group {
             display: flex;
@@ -224,29 +207,8 @@
             transform: translateY(-2px);
         }
 
-        button:active {
-            transform: translateY(0);
-        }
-
         button.btn-secondary {
             background-color: #95a5a6;
-        }
-
-        button.btn-secondary:hover {
-            background-color: #7f8c8d;
-        }
-
-        button.btn-danger {
-            background-color: var(--error-color);
-        }
-
-        button.btn-danger:hover {
-            background-color: #c0392b;
-        }
-
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
         }
 
         /* =============== الجداول =============== */
@@ -271,8 +233,6 @@
             text-align: right;
             font-weight: 600;
             border-bottom: 2px solid #ddd;
-            position: sticky;
-            top: 0;
         }
 
         td {
@@ -281,23 +241,12 @@
             text-align: right;
         }
 
-        tr:hover {
-            background-color: #f8f9fa;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
+        tr:hover { background-color: #f8f9fa; }
 
         .empty-state {
             text-align: center;
             padding: 40px;
             color: #999;
-        }
-
-        .empty-state-icon {
-            font-size: 48px;
-            margin-bottom: 15px;
         }
 
         /* =============== علامات التبويب =============== */
@@ -306,22 +255,13 @@
             animation: fadeIn 0.3s ease;
         }
 
-        .tab-panel.active {
-            display: block;
-        }
+        .tab-panel.active { display: block; }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* =============== الإخطارات =============== */
         .alert {
             padding: 15px 20px;
             border-radius: 4px;
@@ -329,51 +269,27 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 10px;
             animation: slideDown 0.3s ease;
         }
 
         @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .alert.success {
-            background-color: #d4edda;
-            color: #155724;
-            border-left: 4px solid var(--success-color);
-        }
+        .alert.success { background-color: #d4edda; color: #155724; border-left: 4px solid var(--success-color); }
+        .alert.error { background-color: #f8d7da; color: #721c24; border-left: 4px solid var(--error-color); }
 
-        .alert.error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border-left: 4px solid var(--error-color);
-        }
-
-        .alert.info {
-            background-color: #d1ecf1;
-            color: #0c5460;
-            border-left: 4px solid var(--accent-color);
-        }
-
-        .alert .close-btn {
-            cursor: pointer;
-            font-size: 20px;
-            opacity: 0.5;
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
             font-weight: bold;
         }
-
-        .alert .close-btn:hover {
-            opacity: 1;
-        }
-
-        /* =============== التحميل =============== */
+        .badge.new { background-color: #2ecc71; color: white; }
+        .badge.updated { background-color: #f39c12; color: white; }
+        
         .loading {
             display: inline-block;
             width: 20px;
@@ -383,82 +299,9 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
-        }
-
-        /* =============== Responsive =============== */
-        @media (max-width: 768px) {
-            .wrapper {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
-
-            .sidebar nav {
-                flex-direction: row;
-                overflow-x: auto;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .main-content {
-                padding: 15px;
-            }
-
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-        }
-
-        /* =============== معلومات إضافية =============== */
-        .info-box {
-            background-color: #e3f2fd;
-            border-left: 4px solid var(--accent-color);
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-            font-size: 13px;
-            color: #1565c0;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-left: 5px;
-        }
-
-        .badge.new {
-            background-color: #2ecc71;
-            color: white;
-        }
-
-        .badge.updated {
-            background-color: #f39c12;
-            color: white;
-        }
-
-        .divider {
-            border-top: 1px solid #eee;
-            margin: 20px 0;
-        }
-
-        .text-muted {
-            color: #999;
-            font-size: 12px;
         }
     </style>
 </head>
@@ -473,6 +316,7 @@
             <a href="#" class="nav-link" data-page="purchase-page">📥 المشتريات</a>
             <a href="#" class="nav-link" data-page="invoices-page">🧾 الفواتير</a>
             <a href="#" class="nav-link" data-page="cases-page">🩺 الحالات البيطرية</a>
+            <a href="#" class="nav-link" data-page="calls-page">💬 رسائل الدعم والإدارة</a>
             <a href="#" class="nav-link" data-page="commands-page">⚙️ الأوامر المعلقة</a>
         </nav>
     </div>
@@ -483,27 +327,24 @@
         <div id="offers-page" class="tab-panel active">
             <div class="header">
                 <h2>🎯 إدارة العروض والخصومات الفورية</h2>
-                <span class="status-badge connected" id="status-offers">✓ متصل</span>
+                <span class="status-badge connected">✓ متصل بالسحابة</span>
             </div>
             <div class="card">
-                <h3>تطبيق عرض أو خصم على صنف</h3>
-                <div class="info-box">
-                    💡 يمكنك تطبيق عروض وخصومات فورية على الأصناف. سيتم إرسال الأمر لجميع الفروع تلقائياً.
-                </div>
+                <h3>تطبيق أمر بث فوري (فروع الصيدلية)</h3>
                 <div class="form-row">
                     <div class="form-group">
                         <label>كود الصنف المستهدف:</label>
                         <input type="text" id="offerCode" placeholder="مثال: 1000001">
                     </div>
                     <div class="form-group">
-                        <label>نوع التحديث:</label>
+                        <label>نوع التحديث برمجياً:</label>
                         <select id="commandType">
                             <option value="AddOffer">خصم نسبة مئوية (%)</option>
-                            <option value="UpdatePrice">تحديث السعر</option>
+                            <option value="UpdatePrice">تحديث السعر المباشر</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>القيمة (السعر أو نسبة الخصم):</label>
+                        <label>القيمة الجديدة:</label>
                         <input type="number" id="commandValue" placeholder="مثال: 15 أو 120">
                     </div>
                 </div>
@@ -516,45 +357,32 @@
 
         <div id="items-page" class="tab-panel">
             <div class="header">
-                <h2>📦 إدارة الأصناف والمخازن</h2>
+                <h2>📦 إدارة الأصناف والمخازن السحابية</h2>
             </div>
             <div class="card">
-                <h3>إضافة صنف جديد إلى النظام</h3>
-                <div class="info-box">
-                    💡 الأصناف الجديدة ستظهر تلقائياً في جميع الفروع والمخازن.
-                </div>
+                <h3>إضافة صنف جديد يدوياً إلى النظام</h3>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>كود الصنف:</label>
+                        <label>كود الصنف Sequential (7 أرقام):</label>
                         <input type="text" id="itemCode" placeholder="مثال: 1000001">
                     </div>
                     <div class="form-group">
-                        <label>اسم الصنف:</label>
-                        <input type="text" id="itemName" placeholder="مثال: ديكلوفيناك">
+                        <label>اسم المنتج البيطري/الدواني:</label>
+                        <input type="text" id="itemName" placeholder="مثال: ديكلوفيناك صوديوم">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label>سعر الشراء:</label>
-                        <input type="number" id="itemBuy" placeholder="0" step="0.01">
+                        <input type="number" id="itemBuy" placeholder="0.00" step="0.01">
                     </div>
                     <div class="form-group">
                         <label>سعر البيع (قطاعي):</label>
-                        <input type="number" id="itemRetail" placeholder="0" step="0.01">
+                        <input type="number" id="itemRetail" placeholder="0.00" step="0.01">
                     </div>
                     <div class="form-group">
                         <label>سعر البيع (جملة):</label>
-                        <input type="number" id="itemWhole" placeholder="0" step="0.01">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>قطع بالكرتونة:</label>
-                        <input type="number" id="itemPieces" placeholder="0">
-                    </div>
-                    <div class="form-group">
-                        <label>الشركة المنتجة:</label>
-                        <input type="text" id="itemCompany" placeholder="مثال: Sigma">
+                        <input type="number" id="itemWhole" placeholder="0.00" step="0.01">
                     </div>
                 </div>
                 <div class="button-group">
@@ -564,7 +392,7 @@
             </div>
 
             <div class="card">
-                <h3>قائمة الأصناف والمخازن الحالية</h3>
+                <h3>قائمة جرد الأصناف الحالية</h3>
                 <div class="button-group">
                     <button onclick="loadCloudData('Items', 'itemsTableBody')">🔄 تحديث القائمة</button>
                 </div>
@@ -574,20 +402,14 @@
                             <tr>
                                 <th>كود الصنف</th>
                                 <th>اسم الصنف</th>
-                                <th>الكمية</th>
+                                <th>الكمية المتاحة</th>
                                 <th>سعر الشراء</th>
                                 <th>بيع قطاعي</th>
                                 <th>بيع جملة</th>
-                                <th>الشركة</th>
                             </tr>
                         </thead>
                         <tbody id="itemsTableBody">
-                            <tr>
-                                <td colspan="7" class="empty-state">
-                                    <div class="empty-state-icon">📦</div>
-                                    اضغط على "تحديث القائمة" لتحميل الأصناف
-                                </td>
-                            </tr>
+                            <tr><td colspan="6" class="empty-state">اضغط على "تحديث القائمة" لتحميل الأصناف</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -599,59 +421,29 @@
                 <h2>📥 إدخال فواتير المشتريات الخارجية</h2>
             </div>
             <div class="card">
-                <h3>فاتورة مشتريات جديدة</h3>
-                <div class="info-box">
-                    💡 ستقوم بإضافة كل صنف على حدة لكل فاتورة مشتريات.
-                </div>
+                <h3>رأس فاتورة توريد جديدة</h3>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>رقم الفاتورة:</label>
-                        <input type="text" id="purInvoiceNo" placeholder="مثال: PUR-001">
+                        <label>رقم فاتورة المورد:</label>
+                        <input type="text" id="purInvoiceNo" placeholder="مثال: PUR-9082">
                     </div>
                     <div class="form-group">
                         <label>اسم المورد / الشركة:</label>
-                        <input type="text" id="purSupplier" placeholder="مثال: شركة الدواء">
-                    </div>
-                </div>
-                <div class="divider"></div>
-                <h4>تفاصيل الصنف المستلم:</h4>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>كود الصنف:</label>
-                        <input type="text" id="purItemCode" placeholder="مثال: 1000001">
-                    </div>
-                    <div class="form-group">
-                        <label>اسم الصنف:</label>
-                        <input type="text" id="purItemName" placeholder="مثال: ديكلوفيناك">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>الكمية المستلمة:</label>
-                        <input type="number" id="purQty" placeholder="0">
-                    </div>
-                    <div class="form-group">
-                        <label>سعر الشراء للقطعة:</label>
-                        <input type="number" id="purPrice" placeholder="0" step="0.01">
-                    </div>
-                    <div class="form-group">
-                        <label>تاريخ انتهاء الصلاحية:</label>
-                        <input type="date" id="purExpDate">
+                        <input type="text" id="purSupplier" placeholder="مثال: الشركة المتحدة للأدوية">
                     </div>
                 </div>
                 <div class="button-group">
                     <button onclick="sendPurchaseInvoiceAction()">✅ حفظ فاتورة المشتريات</button>
-                    <button class="btn-secondary" onclick="clearPurchaseForm()">🔄 مسح</button>
+                    <button class="btn-secondary" onclick="clearForm('purInvoiceNo', 'purSupplier')">🔄 مسح</button>
                 </div>
             </div>
         </div>
 
         <div id="invoices-page" class="tab-panel">
             <div class="header">
-                <h2>🧾 كشف فواتير المبيعات</h2>
+                <h2>🧾 كشف ومطابقة فواتير المبيعات (الموحدة كاش وبنك)</h2>
             </div>
             <div class="card">
-                <h3>فواتير المبيعات المسجلة</h3>
                 <div class="button-group">
                     <button onclick="loadCloudData('Invoices', 'invoicesTableBody')">🔄 تحديث الفواتير</button>
                 </div>
@@ -661,6 +453,7 @@
                             <tr>
                                 <th>رقم الفاتورة</th>
                                 <th>اسم العميل</th>
+                                <th>نمط السعر</th>
                                 <th>الإجمالي</th>
                                 <th>المدفوع كاش</th>
                                 <th>المدفوع بنك</th>
@@ -669,12 +462,7 @@
                             </tr>
                         </thead>
                         <tbody id="invoicesTableBody">
-                            <tr>
-                                <td colspan="7" class="empty-state">
-                                    <div class="empty-state-icon">🧾</div>
-                                    اضغط على "تحديث الفواتير" لتحميل البيانات
-                                </td>
-                            </tr>
+                            <tr><td colspan="8" class="empty-state">اضغط على "تحديث الفواتير" لتحميل البيانات</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -683,10 +471,9 @@
 
         <div id="cases-page" class="tab-panel">
             <div class="header">
-                <h2>🩺 سجل الحالات البيطرية والسونار</h2>
+                <h2>🩺 سجل الحالات البيطرية ومتابعة السونار</h2>
             </div>
             <div class="card">
-                <h3>الحالات والفحوصات الحالية</h3>
                 <div class="button-group">
                     <button onclick="loadCloudData('AnimalCases', 'casesTableBody')">🔄 تحديث الحالات</button>
                 </div>
@@ -698,19 +485,75 @@
                                 <th>اسم المالك</th>
                                 <th>رقم الهاتف</th>
                                 <th>نوع الحيوان</th>
-                                <th>التشخيص / الحالة</th>
+                                <th>الحالة</th>
                                 <th>أيام الحمل</th>
                                 <th>المتبقي للولادة</th>
-                                <th>التكلفة</th>
+                                <th>التكلفة ج.م</th>
                             </tr>
                         </thead>
                         <tbody id="casesTableBody">
+                            <tr><td colspan="8" class="empty-state">اضغط على "تحديث الحالات" لتحميل البيانات</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="calls-page" class="tab-panel">
+            <div class="header">
+                <h2>💬 إرسال واستقبال رسائل الإدارة والعملاء (Calls)</h2>
+            </div>
+            <div class="card">
+                <h3>إنشاء وبث رسالة إدارية أو أمر تواصل</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>اسم العميل/الجهة:</label>
+                        <input type="text" id="callCustomerName" placeholder="مثال: الإدارة العامة أو اسم العميل">
+                    </div>
+                    <div class="form-group">
+                        <label>رقم المحمول:</label>
+                        <input type="text" id="callMobile" placeholder="01xxxxxxxxx">
+                    </div>
+                    <div class="form-group">
+                        <label>تصنيف الرسالة (CallType):</label>
+                        <select id="callType">
+                            <option value="إداري">أمر إداري عاجل</option>
+                            <option value="مبيعات">طلب عميل خارجي</option>
+                            <option value="مخازن">تنبيه نواقص مخزنية</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="grid-column: span 3;">
+                        <label>نص الرسالة / تفاصيل الأمر الممرر بالفاتورة:</label>
+                        <textarea id="callMessage" placeholder="اكتب تفاصيل الرسالة هنا..."></textarea>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button onclick="sendNewCallAction()">✉️ بث الرسالة السحابية</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>أرشيف الرسائل السحابية الواردة</h3>
+                <div class="button-group">
+                    <button onclick="loadCloudData('Calls', 'callsTableBody')">🔄 تحديث الرسائل</button>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
                             <tr>
-                                <td colspan="8" class="empty-state">
-                                    <div class="empty-state-icon">🩺</div>
-                                    اضغط على "تحديث الحالات" لتحميل البيانات
-                                </td>
+                                <th>معرف الرسالة</th>
+                                <th>الجهة/العميل</th>
+                                <th>المحمول</th>
+                                <th>النوع</th>
+                                <th>مضمون الرسالة</th>
+                                <th>الحالة</th>
+                                <th>التاريخ</th>
                             </tr>
+                        </thead>
+                        <tbody id="callsTableBody">
+                            <tr><td colspan="7" class="empty-state">اضغط على "تحديث الرسائل" لعرض الأرشيف</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -719,10 +562,9 @@
 
         <div id="commands-page" class="tab-panel">
             <div class="header">
-                <h2>⚙️ الأوامر المعلقة للتنفيذ</h2>
+                <h2>⚙️ سجل الحركات والأوامر الإدارية (RemoteCommands)</h2>
             </div>
             <div class="card">
-                <h3>الأوامر التي لم يتم تطبيقها بعد من الفروع</h3>
                 <div class="button-group">
                     <button onclick="loadCloudData('RemoteCommands', 'commandsTableBody')">🔄 تحديث الأوامر</button>
                 </div>
@@ -731,33 +573,29 @@
                         <thead>
                             <tr>
                                 <th>معرف الأمر</th>
-                                <th>نوع الأمر</th>
+                                <th>نوع العمل</th>
                                 <th>الكود المستهدف</th>
-                                <th>القيمة الجديدة</th>
-                                <th>الحالة</th>
-                                <th>التاريخ</th>
+                                <th>القيمة المرسلة</th>
+                                <th>حالة التطبيق بالفروع</th>
+                                <th>تاريخ البث</th>
                             </tr>
                         </thead>
                         <tbody id="commandsTableBody">
-                            <tr>
-                                <td colspan="6" class="empty-state">
-                                    <div class="empty-state-icon">⚙️</div>
-                                    اضغط على "تحديث الأوامر" لتحميل البيانات
-                                </td>
-                            </tr>
+                            <tr><td colspan="6" class="empty-state">اضغط على "تحديث الأوامر" لمراقبة العمليات الحية</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
 <script>
-    // 🔗 الرابط الخاص بك المربوط بـ Web App لجوجل سكريبت
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwLTHAjseuYIiwusY5Kce0lQKyQUxMiwHnXdZyDQZNrM7ERzgZpzc6F6I1FzEaB1Sun/exec";
+    // 🔗 رابط السكريبت السحابي المطور والمثبت لـ ويب أب جوجل
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzcEFlyQn7Y1Xj-Om_LpIA6sDrxdI8p-3GT0iwsBw61jIrHokEbPrHBRkp9ZZmGAdSZ/exec";
 
-    // ========== تبديل الصفحات ==========
+    // ========== التحكم بالصفحات ==========
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
@@ -772,24 +610,19 @@
 
         document.getElementById(pageId).classList.add('active');
         document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
-
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // ========== إدارة الإخطارات ==========
+    // ========== إظهار التنبيهات الموقوتة ==========
     function showAlert(message, type = 'success') {
         const alertsContainer = document.getElementById('alerts-container');
         const alert = document.createElement('div');
         alert.className = `alert ${type}`;
-        alert.innerHTML = `
-            <span>${message}</span>
-            <span class="close-btn" onclick="this.parentElement.remove()">×</span>
-        `;
+        alert.innerHTML = `<span>${message}</span><span style="cursor:pointer;" onclick="this.parentElement.remove()">×</span>`;
         alertsContainer.appendChild(alert);
         setTimeout(() => { if(alert) alert.remove(); }, 5000);
     }
 
-    // توليد معرف عشوائي فريد
     function generateId() {
         return 'ID-' + Math.random().toString(36).substr(2, 9).toUpperCase();
     }
@@ -810,63 +643,53 @@
         document.getElementById('itemBuy').value = '';
         document.getElementById('itemRetail').value = '';
         document.getElementById('itemWhole').value = '';
-        document.getElementById('itemPieces').value = '';
-        document.getElementById('itemCompany').value = '';
     }
 
-    function clearPurchaseForm() {
-        document.getElementById('purItemCode').value = '';
-        document.getElementById('purItemName').value = '';
-        document.getElementById('purQty').value = '';
-        document.getElementById('purPrice').value = '';
-        document.getElementById('purExpDate').value = '';
-    }
-
-    // ========== إرسال الأوامر الفورية (تم إصلاح CORS) ==========
+    // ========== بث أمر إداري فوري عن بعد للفروع ==========
     function sendRemoteAction() {
         const code = document.getElementById('offerCode').value.trim();
         const type = document.getElementById('commandType').value;
         const val = document.getElementById('commandValue').value.trim();
 
         if (!code || !val) {
-            showAlert('❌ برجاء إدخال كود الصنف والقيمة', 'error');
+            showAlert('❌ برجاء إدخال كود الصنف والقيمة المحددة للأمر السحابي', 'error');
             return;
         }
 
-        // إرسال البيانات كـ URLSearchParams لتجنب مشاكل الـ CORS في بعض المتصفحات مع سكريبت جوجل
         const payload = {
             entity: "RemoteCommands",
-            action: "upsert", // تغيير الإجراء إلى upsert المدعوم من السكريبت الموحد
+            action: "sendRemoteCommand", // تم ضبط الاسم ليطابق الشرط دال doPost في سكريبت جوجل الموحد
             data: {
                 CommandId: generateId(),
                 CommandType: type,
                 TargetKey: code,
-                NewValue: val,
-                Status: "Pending",
-                CreatedAt: new Date().toLocaleString('zh-CN', { hour12: false }).replace(/\//g, '-') // صيغة متوافقة yyyy-MM-dd
+                NewValue: val
             }
         };
 
         fetch(SCRIPT_URL, {
             method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         })
-        .then(res => showAlert('✅ تم بث الأمر السحابي للفروع بنجاح!', 'success'))
-        .catch(err => showAlert('❌ فشل الاتصال بالسيرفر السحابي: ' + err.message, 'error'));
-        
-        clearForm('offerCode', 'commandValue');
+        .then(() => {
+            showAlert('✅ تم بث الأمر البرمجي وتوجيهه إلى خادم المزامنة المعلق!', 'success');
+            clearForm('offerCode', 'commandValue');
+        })
+        .catch(err => showAlert('❌ فشل إرسال الأمر السحابي: ' + err.message, 'error'));
     }
 
-    // ========== إضافة صنف جديد (تم إصلاح CORS) ==========
+    // ========== إضافة وبث صنف جديد يدوياً للسحابة ==========
     function addNewItemAction() {
         const code = document.getElementById('itemCode').value.trim();
         const name = document.getElementById('itemName').value.trim();
+        const buy = document.getElementById('itemBuy').value.trim();
         const retail = document.getElementById('itemRetail').value.trim();
         const wholesale = document.getElementById('itemWhole').value.trim();
-        const buy = document.getElementById('itemBuy').value.trim();
 
         if (!code || !name) {
-            showAlert('❌ يجب إدخال الكود والاسم', 'error');
+            showAlert('❌ المتطلبات البرمجية ناقصة: يجب كتابة الكود والاسم التسلسلي', 'error');
             return;
         }
 
@@ -874,36 +697,36 @@
             entity: "Items",
             action: "upsert",
             data: {
+                Id: generateId(),
                 Code: code,
                 Name: name,
-                Quantity: 0, // صنف جديد يبدأ بصفر حتى يضاف له مشتريات أو مخزون أول مدة
+                Quantity: 0,
                 BuyPrice: parseFloat(buy) || 0,
                 SellRetail: parseFloat(retail) || 0,
-                SellWholesale: parseFloat(wholesale) || 0,
-                Company: document.getElementById('itemCompany').value.trim() || 'Generic'
+                SellWholesale: parseFloat(wholesale) || 0
             }
         };
 
         fetch(SCRIPT_URL, {
             method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         })
-        .then(res => {
-            showAlert('✅ تم إضافة الصنف للسيرفر السحابي بنجاح!', 'success');
+        .then(() => {
+            showAlert('✅ تم إرسال وحفظ بيانات الصنف الجديد بالسحابة بنجاح ومزامنته!', 'success');
             clearItemForm();
         })
-        .catch(err => showAlert('❌ خطأ في الحفظ: ' + err.message, 'error'));
+        .catch(err => showAlert('❌ خطأ في الاتصال بالحفظ: ' + err.message, 'error'));
     }
 
-    // ========== إضافة فاتورة مشتريات (تم إصلاح CORS) ==========
+    // ========== إضافة رأس فاتورة مشتريات خارجية ==========
     function sendPurchaseInvoiceAction() {
         const invNo = document.getElementById('purInvoiceNo').value.trim();
         const supplier = document.getElementById('purSupplier').value.trim();
-        const qty = document.getElementById('purQty').value.trim();
-        const price = document.getElementById('purPrice').value.trim();
 
-        if (!invNo || !qty || !price) {
-            showAlert('❌ برجاء تعبئة جميع الحقول المطلوبة للفاتورة', 'error');
+        if (!invNo) {
+            showAlert('❌ برجاء إدخال رقم الفاتورة على الأقل لمطابقة السجل الهيكلي', 'error');
             return;
         }
 
@@ -911,28 +734,73 @@
             entity: "PurchaseInvoices",
             action: "upsert",
             data: {
+                Id: generateId(),
                 InvoiceNo: invNo,
-                Supplier: supplier || 'غير محدد',
-                CreatedAt: new Date().toLocaleString('zh-CN', { hour12: false }).replace(/\//g, '-')
+                Supplier: supplier || 'مورد خارجي غير محدد',
+                CreatedAt: new Date().toISOString()
             }
         };
 
         fetch(SCRIPT_URL, {
             method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         })
-        .then(res => {
-            showAlert('✅ تم حفظ رأس فاتورة المشتريات سحابياً!', 'success');
-            clearPurchaseForm();
+        .then(() => {
+            showAlert('✅ تم إدخال رأس فاتورة الشراء بنجاح في قاعدة البيانات السحابية!', 'success');
+            clearForm('purInvoiceNo', 'purSupplier');
         })
-        .catch(err => showAlert('❌ خطأ في السيرفر: ' + err.message, 'error'));
+        .catch(err => showAlert('❌ فشل المزامنة السحابية للفاتورة: ' + err.message, 'error'));
     }
 
-    // ========== تحميل وعرض البيانات السحابية الحية (مكتملة ومصححة بنسبة 100%) ==========
+    // ========== إرسال رسالة تواصل / دعم جديدة (Calls) ==========
+    function sendNewCallAction() {
+        const name = document.getElementById('callCustomerName').value.trim();
+        const mobile = document.getElementById('callMobile').value.trim();
+        const type = document.getElementById('callType').value;
+        const msg = document.getElementById('callMessage').value.trim();
+
+        if (!name || !msg) {
+            showAlert('❌ الرجاء تعبئة حقل الجهة/الاسم ونص الرسالة الإدارية بدقة', 'error');
+            return;
+        }
+
+        const payload = {
+            entity: "Calls",
+            action: "upsert",
+            data: {
+                Id: generateId(),
+                CustomerName: name,
+                Mobile: mobile || '000',
+                CallType: type,
+                Description: "بث فوري عبر لوحة التحكم",
+                Status: "عاجل",
+                Message: msg,
+                CreatedAt: new Date().toISOString()
+            }
+        };
+
+        fetch(SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        })
+        .then(() => {
+            showAlert('✉️ تم بث رسالة الإدارة والمكالمات بنجاح إلى قاعدة السحابة!', 'success');
+            document.getElementById('callCustomerName').value = '';
+            document.getElementById('callMobile').value = '';
+            document.getElementById('callMessage').value = '';
+        })
+        .catch(err => showAlert('❌ خطأ في معالجة إرسال الرسالة: ' + err.message, 'error'));
+    }
+
+    // ========== جلب وقراءة وتوليد البيانات ديناميكياً من الجداول (قراءة بنسبة 100%) ==========
     function loadCloudData(entity, tableBodyId) {
         const tbody = document.getElementById(tableBodyId);
         const colCount = tbody.parentElement.querySelectorAll('th').length;
-        tbody.innerHTML = `<tr><td colspan="${colCount}" style="text-align:center;"><span class="loading"></span> جاري جلب البيانات من السحابة...</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="${colCount}" style="text-align:center;"><span class="loading"></span> جاري استخراج البيانات الحية ومطابقتها سحابياً...</td></tr>`;
 
         fetch(`${SCRIPT_URL}?entity=${entity}`)
             .then(res => res.json())
@@ -940,7 +808,7 @@
                 tbody.innerHTML = "";
 
                 if (response.result !== "success" || !response.data || response.data.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="${colCount}" class="empty-state">❌ لا توجد سجلات حالية في قاعدة البيانات السحابية</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="${colCount}" class="empty-state">❌ لا توجد سجلات حالية محفوظة في صفحة [${entity}] بالسحابة حتى الآن</td></tr>`;
                     return;
                 }
 
@@ -954,18 +822,18 @@
                             <td><span class="badge new">${row.Quantity || 0}</span></td>
                             <td>${formatNumber(row.BuyPrice)} ج.م</td>
                             <td>${formatNumber(row.SellRetail)} ج.م</td>
-                            <td>${formatNumber(row.SellWholesale)} ج.م</td>
-                            <td>${row.Company || ''}</td>
+                            <td>${formatNumber(row.SellWholesale)} ج.m</td>
                         `;
                     } 
                     else if (entity === 'Invoices') {
                         html += `
                             <td><strong>${row.InvoiceNo || row.Id || ''}</strong></td>
-                            <td>${row.CustomerName || 'عميل نقدي'}</td>
+                            <td>${row.CustomerName || 'عميل نقدي/عيادة'}</td>
+                            <td><span class="badge updated">${row.PriceMode || 'قطاعي'}</span></td>
                             <td><strong>${formatNumber(row.TotalAmount || row.Total)} ج.م</strong></td>
-                            <td>${formatNumber(row.CashPaid)} ج.م</td>
-                            <td>${formatNumber(row.VisaPaid || row.BankPaid)} ج.م</td>
-                            <td>${row.BankTransactionNo || row.TransactionNo || 'لا يوجد'}</td>
+                            <td>${formatNumber(row.PaidCash || row.PaidCash)} ج.م</td>
+                            <td>${formatNumber(row.PaidBank || row.PaidBank)} ج.م</td>
+                            <td><span style="color:#27ae60;">${row.BankTransactionNo || 'كاش'}</span></td>
                             <td><span class="text-muted">${row.CreatedAt || ''}</span></td>
                         `;
                     } 
@@ -974,20 +842,31 @@
                             <td><strong>${row.CaseNumber || ''}</strong></td>
                             <td>${row.OwnerName || ''}</td>
                             <td>${row.Phone || ''}</td>
-                            <td>${row.AnimalType || ''}</td>
-                            <td><span class="badge updated">${row.Status || ''}</span></td>
+                            <td>${row.AnimalType || 'مواشي'}</td>
+                            <td><span class="badge updated">${row.Status || 'فحص سونار'}</span></td>
                             <td>${row.PregnancyDays || 0} يوم</td>
                             <td>${row.RemainingDays || 0} يوم</td>
                             <td>${formatNumber(row.ServiceCost)} ج.م</td>
                         `;
                     } 
+                    else if (entity === 'Calls') {
+                        html += `
+                            <td>${row.Id || ''}</td>
+                            <td><strong>${row.CustomerName || ''}</strong></td>
+                            <td>${row.Mobile || ''}</td>
+                            <td><span class="badge new">${row.CallType || ''}</span></td>
+                            <td><span style="color:#2980b9;">${row.Message || ''}</span></td>
+                            <td>${row.Status || 'نشط'}</td>
+                            <td><span class="text-muted">${row.CreatedAt || ''}</span></td>
+                        `;
+                    }
                     else if (entity === 'RemoteCommands') {
                         html += `
                             <td>${row.CommandId || ''}</td>
-                            <td><span class="badge new">${row.CommandType || ''}</span></td>
+                            <td><span class="badge updated">${row.CommandType || ''}</span></td>
                             <td><strong>${row.TargetKey || ''}</strong></td>
                             <td>${row.NewValue || ''}</td>
-                            <td><span class="status-badge disconnected">${row.Status || 'Pending'}</span></td>
+                            <td><span class="badge" style="background-color:#95a5a6; color:white;">${row.IsApplied == 1 ? '✅ تم التطبيق' : '⏳ معلق بالفروع'}</span></td>
                             <td><span class="text-muted">${row.CreatedAt || ''}</span></td>
                         `;
                     }
@@ -997,7 +876,7 @@
                 });
             })
             .catch(err => {
-                tbody.innerHTML = `<tr><td colspan="${colCount}" class="empty-state" style="color:var(--error-color);">❌ فشل جلب البيانات: ${err.message}</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="${colCount}" class="empty-state" style="color:var(--error-color);">❌ خطأ أثناء الاتصال بالسيرفر وجلب المصفوفات: ${err.message}</td></tr>`;
             });
     }
 </script>
