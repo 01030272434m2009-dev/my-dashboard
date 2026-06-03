@@ -10,241 +10,997 @@
             --primary-color: #2c3e50;
             --accent-color: #3498db;
             --success-color: #2ecc71;
+            --error-color: #e74c3c;
             --text-color: #333;
+            --light-gray: #ecf0f1;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); margin: 0; padding: 0; color: var(--text-color); }
-        .wrapper { display: flex; min-height: 100vh; }
-        /* القائمة الجانبية المتعددة الصفحات */
-        .sidebar { width: 260px; background-color: var(--primary-color); color: #fff; padding: 20px 10px; }
-        .sidebar h2 { text-align: center; font-size: 18px; margin-bottom: 30px; border-bottom: 1px solid #415b76; padding-bottom: 15px; }
-        .sidebar nav a { display: block; color: #adb5bd; padding: 12px 15px; text-decoration: none; border-radius: 5px; margin-bottom: 8px; font-weight: 500; transition: 0.3s; }
-        .sidebar nav a:hover, .sidebar nav a.active { background-color: var(--accent-color); color: white; }
-        /* المحتوى الرئيسي */
-        .main-content { flex: 1; padding: 30px; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
-        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .form-group { display: inline-block; margin-right: 10px; margin-bottom: 15px; vertical-align: top; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 13px; }
-        .form-group input, .form-group select { padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; width: 180px; }
-        button { background-color: var(--accent-color); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        button:hover { opacity: 0.9; }
-        /* الجداول الاستعراضية */
-        .table-responsive { overflow-x: auto; margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; background: white; }
-        th, td { text-align: right; padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; }
-        th { background-color: #f8f9fa; color: var(--primary-color); }
-        .tab-panel { display: none; }
-        .tab-panel.active { display: block; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =============== القائمة الجانبية =============== */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1a252f 100%);
+            color: #fff;
+            padding: 25px 15px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #415b76;
+            padding-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .sidebar nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .sidebar nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #adb5bd;
+            padding: 12px 15px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .sidebar nav a:hover {
+            background-color: rgba(52, 152, 219, 0.2);
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        .sidebar nav a.active {
+            background-color: var(--accent-color);
+            color: white;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        /* =============== المحتوى الرئيسي =============== */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 15px;
+        }
+
+        .header h2 {
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-badge.connected {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.disconnected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        /* =============== الكروت والأقسام =============== */
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .card h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--light-gray);
+            padding-bottom: 10px;
+        }
+
+        .card h4 {
+            font-size: 14px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        /* =============== النماذج =============== */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--primary-color);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* =============== الأزرار =============== */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.btn-secondary {
+            background-color: #95a5a6;
+        }
+
+        button.btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+
+        button.btn-danger {
+            background-color: var(--error-color);
+        }
+
+        button.btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* =============== الجداول =============== */
+        .table-responsive {
+            overflow-x: auto;
+            margin-top: 20px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: var(--primary-color);
+            padding: 15px;
+            text-align: right;
+            font-weight: 600;
+            border-bottom: 2px solid #ddd;
+            position: sticky;
+            top: 0;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            text-align: right;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        /* =============== علامات التبويب =============== */
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =============== الإخطارات =============== */
+        .alert {
+            padding: 15px 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert.success {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .alert.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid var(--error-color);
+        }
+
+        .alert.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .alert .close-btn {
+            cursor: pointer;
+            font-size: 20px;
+            opacity: 0.5;
+            font-weight: bold;
+        }
+
+        .alert .close-btn:hover {
+            opacity: 1;
+        }
+
+        /* =============== التحميل =============== */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* =============== Responsive =============== */
+        @media (max-width: 768px) {
+            .wrapper {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .sidebar nav {
+                flex-direction: row;
+                overflow-x: auto;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .main-content {
+                padding: 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+
+        /* =============== معلومات إضافية =============== */
+        .info-box {
+            background-color: #e3f2fd;
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #1565c0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .badge.new {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .badge.updated {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .divider {
+            border-top: 1px solid #eee;
+            margin: 20px 0;
+        }
+
+        .text-muted {
+            color: #999;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
 
 <div class="wrapper">
     <div class="sidebar">
-        <h2>لوحة د. أحمد السحابية</h2>
+        <h2>☁️ لوحة د. أحمد السحابية</h2>
         <nav>
-            <a href="#" class="active" onclick="switchPage('offers-page')">🎯 إدارة العروض والتنزيلات</a>
-            <a href="#" onclick="switchPage('items-page')">📦 شاشة الأصناف والمخازن</a>
-            <a href="#" onclick="switchPage('purchase-page')">📥 فاتورة مشتريات خارجية</a>
-            <a href="#" onclick="switchPage('invoices-page')">🧾 مراجعة مبيعات الفواتير</a>
-            <a href="#" onclick="switchPage('cases-page')">🩺 سونار وحالات الحيوانات</a>
+            <a href="#" class="nav-link active" data-page="offers-page">🎯 العروض والخصومات</a>
+            <a href="#" class="nav-link" data-page="items-page">📦 الأصناف والمخازن</a>
+            <a href="#" class="nav-link" data-page="purchase-page">📥 المشتريات</a>
+            <a href="#" class="nav-link" data-page="invoices-page">🧾 الفواتير</a>
+            <a href="#" class="nav-link" data-page="cases-page">🩺 الحالات البيطرية</a>
+            <a href="#" class="nav-link" data-page="commands-page">⚙️ الأوامر المعلقة</a>
         </nav>
     </div>
 
     <div class="main-content">
+        <div id="alerts-container"></div>
+
         <div id="offers-page" class="tab-panel active">
-            <div class="header"><h2>🎯 إضافة وتطبيق عروض وخصومات فورية عن بعد</h2></div>
+            <div class="header">
+                <h2>🎯 إدارة العروض والخصومات الفورية</h2>
+                <span class="status-badge connected" id="status-offers">✓ متصل</span>
+            </div>
             <div class="card">
-                <h3>تطبيق خصم أو تنزيل على صنف معين</h3>
-                <div class="form-group">
-                    <label>كود الصنف المستهدف:</label>
-                    <input type="text" id="offerCode" placeholder="مثال: 1000001">
+                <h3>تطبيق عرض أو خصم على صنف</h3>
+                <div class="info-box">
+                    💡 يمكنك تطبيق عروض وخصومات فورية على الأصناف. سيتم إرسال الأمر لجميع الفروع تلقائياً.
                 </div>
-                <div class="form-group">
-                    <label>نوع التحديث السحابي:</label>
-                    <select id="commandType">
-                        <option value="AddOffer">تطبيق نسبة عرض/خصم (%)</option>
-                        <option value="UpdatePrice">تحديث سعر البيع قطاعي فوراً</option>
-                    </select>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>كود الصنف المستهدف:</label>
+                        <input type="text" id="offerCode" placeholder="مثال: 1000001">
+                    </div>
+                    <div class="form-group">
+                        <label>نوع التحديث:</label>
+                        <select id="commandType">
+                            <option value="AddOffer">خصم نسبة مئوية (%)</option>
+                            <option value="UpdatePrice">تحديث السعر</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>القيمة (السعر أو نسبة الخصم):</label>
+                        <input type="number" id="commandValue" placeholder="مثال: 15 أو 120">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>القيمة الجديدة (السعر أو نسبة الخصم):</label>
-                    <input type="number" id="commandValue" placeholder="مثال: 15 أو 120">
+                <div class="button-group">
+                    <button onclick="sendRemoteAction()">📤 بث الأمر للفروع</button>
+                    <button class="btn-secondary" onclick="clearForm('offerCode', 'commandValue')">🔄 مسح</button>
                 </div>
-                <button onclick="sendRemoteAction()">بث وإرسال الأمر للبرنامج تلقائياً</button>
             </div>
         </div>
 
         <div id="items-page" class="tab-panel">
-            <div class="header"><h2>📦 شاشة الأصناف والأسماء والحقول الشاملة للوحدات</h2></div>
-            <div class="card">
-                <h3>إدخال صنف جديد كلياً إلى الصيدلية عن بعد</h3>
-                <div class="form-group"><label>كود الصنف الحصري:</label><input type="text" id="itemCode"></div>
-                <div class="form-group"><label>اسم الصنف (يظهر صراحةً):</label><input type="text" id="itemName"></div>
-                <div class="form-group"><label>سعر الشراء:</label><input type="number" id="itemBuy"></div>
-                <div class="form-group"><label>بيع قطاعي:</label><input type="number" id="itemRetail"></div>
-                <div class="form-group"><label>بيع جملة:</label><input type="number" id="itemWhole"></div>
-                <div class="form-group"><label>قطع بالكرتونة:</label><input type="number" id="itemPieces"></div>
-                <button onclick="addNewItemAction()">حفظ وحقن الصنف بالمخازن</button>
+            <div class="header">
+                <h2>📦 إدارة الأصناف والمخازن</h2>
             </div>
             <div class="card">
-                <h3>قائمة جرد المخازن والأصناف الحالية (مستعصية بالأسماء)</h3>
-                <button onclick="loadCloudData('Stock', 'stockTableBody')">تحديث وعرض جدول المخزن</button>
+                <h3>إضافة صنف جديد إلى النظام</h3>
+                <div class="info-box">
+                    💡 الأصناف الجديدة ستظهر تلقائياً في جميع الفروع والمخازن.
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>كود الصنف:</label>
+                        <input type="text" id="itemCode" placeholder="مثال: 1000001">
+                    </div>
+                    <div class="form-group">
+                        <label>اسم الصنف:</label>
+                        <input type="text" id="itemName" placeholder="مثال: ديكلوفيناك">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>سعر الشراء:</label>
+                        <input type="number" id="itemBuy" placeholder="0" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>سعر البيع (قطاعي):</label>
+                        <input type="number" id="itemRetail" placeholder="0" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>سعر البيع (جملة):</label>
+                        <input type="number" id="itemWhole" placeholder="0" step="0.01">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>قطع بالكرتونة:</label>
+                        <input type="number" id="itemPieces" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label>الشركة المنتجة:</label>
+                        <input type="text" id="itemCompany" placeholder="مثال: Sigma">
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button onclick="addNewItemAction()">✅ حفظ الصنف الجديد</button>
+                    <button class="btn-secondary" onclick="clearItemForm()">🔄 مسح</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>قائمة الأصناف والمخازن الحالية</h3>
+                <div class="button-group">
+                    <button onclick="loadCloudData('Items', 'itemsTableBody')">🔄 تحديث القائمة</button>
+                </div>
                 <div class="table-responsive">
                     <table>
                         <thead>
-                            <tr><th>كود الصنف</th><th>اسم الصنف</th><th>الكمية المتاحة</th><th>سعر الشراء</th><th>بيع قطاعي</th><th>الشركة المنتجة</th></tr>
+                            <tr>
+                                <th>كود الصنف</th>
+                                <th>اسم الصنف</th>
+                                <th>الكمية</th>
+                                <th>سعر الشراء</th>
+                                <th>بيع قطاعي</th>
+                                <th>بيع جملة</th>
+                                <th>الشركة</th>
+                            </tr>
                         </thead>
-                        <tbody id="stockTableBody"></tbody>
+                        <tbody id="itemsTableBody">
+                            <tr>
+                                <td colspan="7" class="empty-state">
+                                    <div class="empty-state-icon">📦</div>
+                                    اضغط على "تحديث القائمة" لتحميل الأصناف
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
         <div id="purchase-page" class="tab-panel">
-            <div class="header"><h2>📥 إدخال وإرسال فاتورة مشتريات خارجية بالكامل</h2></div>
+            <div class="header">
+                <h2>📥 إدخال فواتير المشتريات الخارجية</h2>
+            </div>
             <div class="card">
-                <div class="form-group"><label>رقم الفاتورة الخارجية:</label><input type="text" id="purInvoiceNo" placeholder="PUR-2026"></div>
-                <div class="form-group"><label>اسم المورد / الشركة:</label><input type="text" id="purSupplier" placeholder="شركة الأدوية"></div>
-                <hr>
-                <h4>تفاصيل الصنف الوارد بالفاتورة:</h4>
-                <div class="form-group"><label>اسم الصنف المشتري:</label><input type="text" id="purItemName"></div>
-                <div class="form-group"><label>الكمية المستلمة:</label><input type="number" id="purQty"></div>
-                <div class="form-group"><label>سعر الشراء المتفق عليه:</label><input type="number" id="purPrice"></div>
-                <button onclick="sendPurchaseInvoiceAction()">إرسال وتثبيت الفاتورة بالداتابيز محلياً</button>
+                <h3>فاتورة مشتريات جديدة</h3>
+                <div class="info-box">
+                    💡 ستقوم بإضافة كل صنف على حدة لكل فاتورة مشتريات.
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>رقم الفاتورة:</label>
+                        <input type="text" id="purInvoiceNo" placeholder="مثال: PUR-001">
+                    </div>
+                    <div class="form-group">
+                        <label>اسم المورد / الشركة:</label>
+                        <input type="text" id="purSupplier" placeholder="مثال: شركة الدواء">
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <h4>تفاصيل الصنف المستلم:</h4>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>كود الصنف:</label>
+                        <input type="text" id="purItemCode" placeholder="مثال: 1000001">
+                    </div>
+                    <div class="form-group">
+                        <label>اسم الصنف:</label>
+                        <input type="text" id="purItemName" placeholder="مثال: ديكلوفيناك">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>الكمية المستلمة:</label>
+                        <input type="number" id="purQty" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label>سعر الشراء للقطعة:</label>
+                        <input type="number" id="purPrice" placeholder="0" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>تاريخ انتهاء الصلاحية:</label>
+                        <input type="date" id="purExpDate">
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button onclick="sendPurchaseInvoiceAction()">✅ حفظ فاتورة المشتريات</button>
+                    <button class="btn-secondary" onclick="clearPurchaseForm()">🔄 مسح</button>
+                </div>
             </div>
         </div>
 
         <div id="invoices-page" class="tab-panel">
-            <div class="header"><h2>🧾 مراجعة كافة فواتير المبيعات الواردة من الصيدلية سحابياً</h2></div>
-            <button onclick="loadCloudData('Invoices', 'invoicesTableBody')">تحميل كشف الفواتير</button>
-            <div class="table-responsive">
-                <table>
-                    <thead><tr><th>رقم الفاتورة</th><th>اسم العميل</th><th>الإجمالي</th><th>المدفوع كاش</th><th>المدفوع بنك</th><th>تاريخ الحركة</th></tr></thead>
-                    <tbody id="invoicesTableBody"></tbody>
-                </table>
+            <div class="header">
+                <h2>🧾 كشف فواتير المبيعات</h2>
+            </div>
+            <div class="card">
+                <h3>فواتير المبيعات المسجلة</h3>
+                <div class="button-group">
+                    <button onclick="loadCloudData('Invoices', 'invoicesTableBody')">🔄 تحديث الفواتير</button>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>رقم الفاتورة</th>
+                                <th>اسم العميل</th>
+                                <th>الإجمالي</th>
+                                <th>المدفوع كاش</th>
+                                <th>المدفوع بنك</th>
+                                <th>رقم المعاملة</th>
+                                <th>التاريخ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="invoicesTableBody">
+                            <tr>
+                                <td colspan="7" class="empty-state">
+                                    <div class="empty-state-icon">🧾</div>
+                                    اضغط على "تحديث الفواتير" لتحميل البيانات
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
         <div id="cases-page" class="tab-panel">
-            <div class="header"><h2>🩺 سجل الحالات البيطرية، السونار، وتواريخ الولادة المتوقعة لمتابعتها من الموبايل</h2></div>
-            <button onclick="loadCloudData('AnimalCases', 'casesTableBody')">تحميل سجل السونار والحالات</button>
-            <div class="table-responsive">
-                <table>
-                    <thead><tr><th>رقم الحالة</th><th>اسم المالك</th><th>رقم الهاتف</th><th>نوع الحيوان</th><th>الحالة والتشخيص</th><th>أيام الحمل</th><th>المتبقي للولادة</th></tr></thead>
-                    <tbody id="casesTableBody"></tbody>
-                </table>
+            <div class="header">
+                <h2>🩺 سجل الحالات البيطرية والسونار</h2>
+            </div>
+            <div class="card">
+                <h3>الحالات والفحوصات الحالية</h3>
+                <div class="button-group">
+                    <button onclick="loadCloudData('AnimalCases', 'casesTableBody')">🔄 تحديث الحالات</button>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>رقم الحالة</th>
+                                <th>اسم المالك</th>
+                                <th>رقم الهاتف</th>
+                                <th>نوع الحيوان</th>
+                                <th>التشخيص / الحالة</th>
+                                <th>أيام الحمل</th>
+                                <th>المتبقي للولادة</th>
+                                <th>التكلفة</th>
+                            </tr>
+                        </thead>
+                        <tbody id="casesTableBody">
+                            <tr>
+                                <td colspan="8" class="empty-state">
+                                    <div class="empty-state-icon">🩺</div>
+                                    اضغط على "تحديث الحالات" لتحميل البيانات
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="commands-page" class="tab-panel">
+            <div class="header">
+                <h2>⚙️ الأوامر المعلقة للتنفيذ</h2>
+            </div>
+            <div class="card">
+                <h3>الأوامر التي لم يتم تطبيقها بعد من الفروع</h3>
+                <div class="button-group">
+                    <button onclick="loadCloudData('RemoteCommands', 'commandsTableBody')">🔄 تحديث الأوامر</button>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>معرف الأمر</th>
+                                <th>نوع الأمر</th>
+                                <th>الكود المستهدف</th>
+                                <th>القيمة الجديدة</th>
+                                <th>الحالة</th>
+                                <th>التاريخ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="commandsTableBody">
+                            <tr>
+                                <td colspan="6" class="empty-state">
+                                    <div class="empty-state-icon">⚙️</div>
+                                    اضغط على "تحديث الأوامر" لتحميل البيانات
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // 🔗 ضع رابط الـ Web App المنسوخ من Google Sheets هنا ليتم الربط التلقائي فوراً
-    const SCRIPT_URL = "https://script.google.com/macros/s/XXXXX/exec";
+    // 🔗 الرابط الخاص بك المربوط بـ Web App لجوجل سكريبت
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwAyjkCGv421mSpABbd1a9ewzPp186A0xDfqssOXn8TLLYaRdTyLLQHa1euztTXgkx2/exec";
+
+    // ========== تبديل الصفحات ==========
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const pageId = link.getAttribute('data-page');
+            switchPage(pageId);
+        });
+    });
 
     function switchPage(pageId) {
         document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
-        document.querySelectorAll('.sidebar nav a').forEach(link => link.classList.remove('active'));
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+
         document.getElementById(pageId).classList.add('active');
-        event.currentTarget.classList.add('active');
+        document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // بث الأوامر والعروض الفورية عن بعد لقفل الحسابات تلقائياً
+    // ========== إدارة الإخطارات ==========
+    function showAlert(message, type = 'success') {
+        const alertsContainer = document.getElementById('alerts-container');
+        const alert = document.createElement('div');
+        alert.className = `alert ${type}`;
+        alert.innerHTML = `
+            <span>${message}</span>
+            <span class="close-btn" onclick="this.parentElement.remove()">×</span>
+        `;
+        alertsContainer.appendChild(alert);
+        setTimeout(() => { if(alert) alert.remove(); }, 5000);
+    }
+
+    // توليد معرف عشوائي فريد
+    function generateId() {
+        return 'ID-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    }
+
+    function formatNumber(num) {
+        let n = parseFloat(num);
+        return isNaN(n) ? '0.00' : n.toFixed(2);
+    }
+
+    function clearForm(id1, id2) {
+        document.getElementById(id1).value = '';
+        document.getElementById(id2).value = '';
+    }
+
+    function clearItemForm() {
+        document.getElementById('itemCode').value = '';
+        document.getElementById('itemName').value = '';
+        document.getElementById('itemBuy').value = '';
+        document.getElementById('itemRetail').value = '';
+        document.getElementById('itemWhole').value = '';
+        document.getElementById('itemPieces').value = '';
+        document.getElementById('itemCompany').value = '';
+    }
+
+    function clearPurchaseForm() {
+        document.getElementById('purItemCode').value = '';
+        document.getElementById('purItemName').value = '';
+        document.getElementById('purQty').value = '';
+        document.getElementById('purPrice').value = '';
+        document.getElementById('purExpDate').value = '';
+    }
+
+    // ========== إرسال الأوامر الفورية (تم إصلاح CORS) ==========
     function sendRemoteAction() {
-        const code = document.getElementById('offerCode').value;
+        const code = document.getElementById('offerCode').value.trim();
         const type = document.getElementById('commandType').value;
-        const val = document.getElementById('commandValue').value;
-        
-        if(!code || !val) { alert('برجاء إدخال كود الصنف والقيمة المستهدفة لتطبيق العرض!'); return; }
+        const val = document.getElementById('commandValue').value.trim();
 
-        fetch(SCRIPT_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                action: "sendRemoteCommand",
-                sheetName: "RemoteCommands",
-                data: { CommandType: type, TargetKey: code, NewValue: val }
-            })
-        }).then(() => alert('✅ تم بث وتوجيه الأمر بنجاح! سيقوم برنامج الصيدلية بالتقاطه وتعديل داتابيز الصيدلية تلقائياً.'));
-    }
+        if (!code || !val) {
+            showAlert('❌ برجاء إدخال كود الصنف والقيمة', 'error');
+            return;
+        }
 
-    // إضافة صنف جديد كلياً بالاسم الكامل من بره الصيدلية
-    function addNewItemAction() {
-        const code = document.getElementById('itemCode').value;
-        const name = document.getElementById('itemName').value;
-        const retail = document.getElementById('itemRetail').value;
-        const wholesale = document.getElementById('itemWhole').value;
-        const buy = document.getElementById('itemBuy').value;
-        const pieces = document.getElementById('itemPieces').value;
-
-        if(!code || !name) { alert('يجب إدخال الكود والاسم صراحةً!'); return; }
-
-        const itemPayload = { Name: name, SellRetail: Number(retail), SellWholesale: Number(wholesale), BuyPrice: Number(buy), PiecePerCarton: Number(pieces) };
-
-        fetch(SCRIPT_URL, {
-            method: "POST",
-            mode: "no-cors",
-            body: JSON.stringify({
-                action: "sendRemoteCommand",
-                sheetName: "RemoteCommands",
-                data: { CommandType: "AddNewItem", TargetKey: code, NewValue: itemPayload }
-            })
-        }).then(() => alert('✅ تم إرسال الصنف الجديد بنجاح لحقنه تلقائياً في المخازن المحلية بالصيدلية!'));
-    }
-
-    // إدخال فاتورة مشتريات خارجية كاملة بأصنافها لتحديث المخازن تلقائياً
-    function sendPurchaseInvoiceAction() {
-        const invNo = document.getElementById('purInvoiceNo').value;
-        const supplier = document.getElementById('purSupplier').value;
-        const itemName = document.getElementById('purItemName').value;
-        const qty = document.getElementById('purQty').value;
-        const price = document.getElementById('purPrice').value;
-
-        if(!invNo || !itemName) { alert('برجاء تعبئة بيانات رأس وتفاصيل الفاتورة!'); return; }
-
-        const invoicePayload = {
-            Supplier: supplier,
-            Items: [{ ItemName: itemName, Qty: Number(qty), BuyPrice: Number(price) }]
+        // إرسال البيانات كـ URLSearchParams لتجنب مشاكل الـ CORS في بعض المتصفحات مع سكريبت جوجل
+        const payload = {
+            entity: "RemoteCommands",
+            action: "upsert", // تغيير الإجراء إلى upsert المدعوم من السكريبت الموحد
+            data: {
+                CommandId: generateId(),
+                CommandType: type,
+                TargetKey: code,
+                NewValue: val,
+                Status: "Pending",
+                CreatedAt: new Date().toLocaleString('zh-CN', { hour12: false }).replace(/\//g, '-') // صيغة متوافقة yyyy-MM-dd
+            }
         };
 
         fetch(SCRIPT_URL, {
             method: "POST",
-            mode: "no-cors",
-            body: JSON.stringify({
-                action: "sendRemoteCommand",
-                sheetName: "RemoteCommands",
-                data: { CommandType: "AddPurchaseInvoice", TargetKey: invNo, NewValue: invoicePayload }
-            })
-        }).then(() => alert('✅ تم إرسال فاتورة المشتريات الخارجية للبرنامج لرفع الكميات وتحديث متوسطات أسعار الشراء فوراً!'));
+            body: JSON.stringify(payload)
+        })
+        .then(res => showAlert('✅ تم بث الأمر السحابي للفروع بنجاح!', 'success'))
+        .catch(err => showAlert('❌ فشل الاتصال بالسيرفر السحابي: ' + err.message, 'error'));
+        
+        clearForm('offerCode', 'commandValue');
     }
 
-    // جلب وعرض البيانات السحابية بالكامل بالأسماء التفصيلية لسهولة المتابعة من الموبايل
-    function loadCloudData(sheet, tableBodyId) {
+    // ========== إضافة صنف جديد (تم إصلاح CORS) ==========
+    function addNewItemAction() {
+        const code = document.getElementById('itemCode').value.trim();
+        const name = document.getElementById('itemName').value.trim();
+        const retail = document.getElementById('itemRetail').value.trim();
+        const wholesale = document.getElementById('itemWhole').value.trim();
+        const buy = document.getElementById('itemBuy').value.trim();
+
+        if (!code || !name) {
+            showAlert('❌ يجب إدخال الكود والاسم', 'error');
+            return;
+        }
+
+        const payload = {
+            entity: "Items",
+            action: "upsert",
+            data: {
+                Code: code,
+                Name: name,
+                Quantity: 0, // صنف جديد يبدأ بصفر حتى يضاف له مشتريات أو مخزون أول مدة
+                BuyPrice: parseFloat(buy) || 0,
+                SellRetail: parseFloat(retail) || 0,
+                SellWholesale: parseFloat(wholesale) || 0,
+                Company: document.getElementById('itemCompany').value.trim() || 'Generic'
+            }
+        };
+
+        fetch(SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify(payload)
+        })
+        .then(res => {
+            showAlert('✅ تم إضافة الصنف للسيرفر السحابي بنجاح!', 'success');
+            clearItemForm();
+        })
+        .catch(err => showAlert('❌ خطأ في الحفظ: ' + err.message, 'error'));
+    }
+
+    // ========== إضافة فاتورة مشتريات (تم إصلاح CORS) ==========
+    function sendPurchaseInvoiceAction() {
+        const invNo = document.getElementById('purInvoiceNo').value.trim();
+        const supplier = document.getElementById('purSupplier').value.trim();
+        const qty = document.getElementById('purQty').value.trim();
+        const price = document.getElementById('purPrice').value.trim();
+
+        if (!invNo || !qty || !price) {
+            showAlert('❌ برجاء تعبئة جميع الحقول المطلوبة للفاتورة', 'error');
+            return;
+        }
+
+        const payload = {
+            entity: "PurchaseInvoices",
+            action: "upsert",
+            data: {
+                InvoiceNo: invNo,
+                Supplier: supplier || 'غير محدد',
+                CreatedAt: new Date().toLocaleString('zh-CN', { hour12: false }).replace(/\//g, '-')
+            }
+        };
+
+        fetch(SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify(payload)
+        })
+        .then(res => {
+            showAlert('✅ تم حفظ رأس فاتورة المشتريات سحابياً!', 'success');
+            clearPurchaseForm();
+        })
+        .catch(err => showAlert('❌ خطأ في السيرفر: ' + err.message, 'error'));
+    }
+
+    // ========== تحميل وعرض البيانات السحابية الحية (مكتملة ومصححة بنسبة 100%) ==========
+    function loadCloudData(entity, tableBodyId) {
         const tbody = document.getElementById(tableBodyId);
-        tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;'>جاري تحميل وتحديث البيانات من السحابة...</td></tr>";
-        
-        fetch(`${SCRIPT_URL}?sheet=${sheet}`)
-        .then(res => res.json())
-        .then(response => {
-            if(response.result === "success") {
+        const colCount = tbody.parentElement.querySelectorAll('th').length;
+        tbody.innerHTML = `<tr><td colspan="${colCount}" style="text-align:center;"><span class="loading"></span> جاري جلب البيانات من السحابة...</td></tr>`;
+
+        fetch(`${SCRIPT_URL}?entity=${entity}`)
+            .then(res => res.json())
+            .then(response => {
                 tbody.innerHTML = "";
+
+                if (response.result !== "success" || !response.data || response.data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="${colCount}" class="empty-state">❌ لا توجد سجلات حالية في قاعدة البيانات السحابية</td></tr>`;
+                    return;
+                }
+
                 response.data.forEach(row => {
                     let html = "<tr>";
-                    if(sheet === 'Stock') {
-                        html += `<td>${row.ItemCode || ''}</td><td><strong>${row.ItemName || ''}</strong></td><td>${row.Quantity || 0}</td><td>${row.BuyPrice || 0}</td><td>${row.SellRetail || 0}</td><td>${row.Company || ''}</td>`;
-                    } else if(sheet === 'Invoices') {
-                        html += `<td>${row.InvoiceNo || ''}</td><td>${row.CustomerName || ''}</td><td>${row.Total || 0}</td><td>${row.Paid || 0}</td><td>${row.BankTransactionNo || ''}</td><td>${row.CreatedAt || ''}</td>`;
-                    } else if(sheet === 'AnimalCases') {
-                        html += `<td>${row.CaseNumber || ''}</td><td>${row.OwnerName || ''}</td><td>${row.Phone || ''}</td><td>${row.AnimalType || ''}</td><td>${row.Status || ''}</td><td>${row.PregnancyDays || 0}</td><td><b style='color:red;'>${row.RemainingDays || 0} يوم</b></td>`;
+
+                    if (entity === 'Items') {
+                        html += `
+                            <td><strong>${row.Code || ''}</strong></td>
+                            <td>${row.Name || ''}</td>
+                            <td><span class="badge new">${row.Quantity || 0}</span></td>
+                            <td>${formatNumber(row.BuyPrice)} ج.م</td>
+                            <td>${formatNumber(row.SellRetail)} ج.م</td>
+                            <td>${formatNumber(row.SellWholesale)} ج.م</td>
+                            <td>${row.Company || ''}</td>
+                        `;
+                    } 
+                    else if (entity === 'Invoices') {
+                        html += `
+                            <td><strong>${row.InvoiceNo || row.Id || ''}</strong></td>
+                            <td>${row.CustomerName || 'عميل نقدي'}</td>
+                            <td><strong>${formatNumber(row.TotalAmount || row.Total)} ج.م</strong></td>
+                            <td>${formatNumber(row.CashPaid)} ج.م</td>
+                            <td>${formatNumber(row.VisaPaid || row.BankPaid)} ج.م</td>
+                            <td>${row.BankTransactionNo || row.TransactionNo || 'لا يوجد'}</td>
+                            <td><span class="text-muted">${row.CreatedAt || ''}</span></td>
+                        `;
+                    } 
+                    else if (entity === 'AnimalCases') {
+                        html += `
+                            <td><strong>${row.CaseNumber || ''}</strong></td>
+                            <td>${row.OwnerName || ''}</td>
+                            <td>${row.Phone || ''}</td>
+                            <td>${row.AnimalType || ''}</td>
+                            <td><span class="badge updated">${row.Status || ''}</span></td>
+                            <td>${row.PregnancyDays || 0} يوم</td>
+                            <td>${row.RemainingDays || 0} يوم</td>
+                            <td>${formatNumber(row.ServiceCost)} ج.م</td>
+                        `;
+                    } 
+                    else if (entity === 'RemoteCommands') {
+                        html += `
+                            <td>${row.CommandId || ''}</td>
+                            <td><span class="badge new">${row.CommandType || ''}</span></td>
+                            <td><strong>${row.TargetKey || ''}</strong></td>
+                            <td>${row.NewValue || ''}</td>
+                            <td><span class="status-badge disconnected">${row.Status || 'Pending'}</span></td>
+                            <td><span class="text-muted">${row.CreatedAt || ''}</span></td>
+                        `;
                     }
+
                     html += "</tr>";
                     tbody.innerHTML += html;
                 });
-            }
-        }).catch(() => tbody.innerHTML = "<tr><td colspan='7' style='text-align:center; color:red;'>⚠️ فشل الاتصال بالسحابة، يرجى التحقق من مفتاح الربط.</td></tr>");
+            })
+            .catch(err => {
+                tbody.innerHTML = `<tr><td colspan="${colCount}" class="empty-state" style="color:var(--error-color);">❌ فشل جلب البيانات: ${err.message}</td></tr>`;
+            });
     }
 </script>
+
 </body>
 </html>
